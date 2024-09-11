@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 
 export default function Home() {
-  const APIBASE = process.env.NEXT_PUBLIC_API_URL;
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL;
   const [categoryList, setCategoryList] = useState([]);
   const { register, handleSubmit } = useForm();
 
   async function fetchCategory() {
-    const data = await fetch("${APIBASE}/category");
+    const data = await fetch(`${API_BASE}/category`);
     const c = await data.json();
     setCategoryList(c);
   }
@@ -19,7 +19,7 @@ export default function Home() {
   }, []);
 
   function createCategory(data) {
-    fetch("${APIBASE}/category", {
+    fetch(`${API_BASE}/category`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export default function Home() {
             <input
               type="submit"
               value="Add"
-              className="bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              className="italic bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
             />
           </div>
         </div>
