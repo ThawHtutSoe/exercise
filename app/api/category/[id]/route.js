@@ -7,12 +7,6 @@ export async function GET(request, { params }) {
     return Response.json(category);
 } 
 
-export async function POST(request) {
-  const body = await request.json()
-  const category = new Category(body)
-  await category.save()
-  return Response.json(category)
-}
 
 
 
