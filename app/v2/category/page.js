@@ -11,16 +11,31 @@ import Avatar from "@mui/material/Avatar";
 import ImageIcon from "@mui/icons-material/Image";
 import WorkIcon from "@mui/icons-material/Work";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
+import { DataGrid } from '@mui/x-data-grid';
+
+
+const columns = [
+  {field:'name', headerName:'Name', width:200},
+  {field:'order', headerName:'order', width:200}
+]
+
 
 export default function Home() {
   const [category, setCategory] = useState([]);
   const { register, handleSubmit } = useForm();
   const API_BASE = process.env.NEXT_PUBLIC_API_BASE
   console.log(`${API_BASE}/category`)
+  
   async function fetchCategory() {
     const data = await fetch(`${API_BASE}/category`);
     const c = await data.json();
-    setCategory(c);
+    const c2 = c.map((category) => {
+      return {
+        ...category,
+        id: category._id
+      }
+    })
+    setCategoryList(c2);
   }
 
   useEffect(() => {
@@ -60,23 +75,10 @@ export default function Home() {
         </div>
       </form>
       <div className="mx-4">
-        <h1>Category ({category.length})</h1>
-        <List>
-          {category.map((category) => (
-            <ListItem key={category._id}>
-              <ListItemAvatar>
-                <Avatar>
-                  <WorkIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText>
-                  {category.name}
-                <Link href={`/product/category/${category._id}`} className="text-red-600">
-                </Link>
-              </ListItemText>
-            </ListItem>
-          ))}
-        </List>
+      <DataGrid
+          rows={category}
+          columns={columns}
+        />
       </div>
     </main>
   );
